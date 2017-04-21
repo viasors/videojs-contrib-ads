@@ -122,12 +122,13 @@ const contribAdsPlugin = function(options) {
     state: 'content-set',
     disableNextSnapshotRestore: false,
 
-    // This is true if we have finished actual content playback but haven't dealt with
-    // postrolls or ended events yet.
-    _postrollMode: false,
+    // This is true if we have finished actual content playback but haven't
+    // dealt with postrolls and officially ended yet
+    _contentEnding: false,
 
-    // This is set to true if the content has ended once. After that, the user can
-    // seek backwards and replay content, but _contentHasEnded remains true.
+    // This is set to true if the content has officially ended at least once.
+    // After that, the user can seek backwards and replay content, but _contentHasEnded
+    // remains true.
     _contentHasEnded: false,
 
     // This is an estimation of the current ad type being played
@@ -491,7 +492,7 @@ const contribAdsPlugin = function(options) {
     },
     'postroll?': {
       enter() {
-        player.ads._postrollMode = true;
+        player.ads._contentEnding = true;
         this.snapshot = snapshot.getPlayerSnapshot(player);
         if (player.ads.nopostroll_) {
           window.setTimeout(function() {
@@ -610,6 +611,7 @@ const contribAdsPlugin = function(options) {
             return;
           }
 
+          this._contentEnding = false;
           this._contentHasEnded = true;
           this.state = 'postroll?';
         }
