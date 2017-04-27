@@ -132,7 +132,7 @@ const contribAdsPlugin = function(options) {
     _contentHasEnded: false,
 
     // The next loadstart is due to an expected and legitimate play
-    _dontPrefixNextLoadstart: false,
+    _dontPrefixNextLoadstart: true,
 
     // This is an estimation of the current ad type being played
     // This is experimental currently. Do not rely on its presence or behavior!
@@ -346,6 +346,7 @@ const contribAdsPlugin = function(options) {
       },
       leave() {
         window.clearTimeout(player.ads.adTimeoutTimeout);
+        // player.ads._dontPrefixNextLoadstart = false;
       },
       events: {
         play() {
@@ -371,7 +372,7 @@ const contribAdsPlugin = function(options) {
     },
     'ads-ready?': {
       enter() {
-        player.ads._dontPrefixNextLoadstart = true;
+        // player.ads._dontPrefixNextLoadstart = true;
         player.addClass('vjs-ad-loading');
         player.ads.adTimeoutTimeout = window.setTimeout(function() {
           player.trigger('adtimeout');
