@@ -15,6 +15,9 @@ import videojs from 'video.js';
  * @param {Object} player The videojs player object
  */
 export function getPlayerSnapshot(player) {
+  if (player.ads.snapshot) {
+    return player.ads.snapshot;
+  }
 
   let currentTime;
 

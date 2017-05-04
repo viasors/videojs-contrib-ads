@@ -145,6 +145,7 @@ const contribAdsPlugin = function(options) {
       if (player.ads.state === 'preroll?' ||
           player.ads.state === 'content-playback' ||
           player.ads.state === 'postroll?') {
+        player.ads.snapshot = null;
         player.trigger('adstart');
       }
     },
